@@ -1,13 +1,32 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Practic.Models.Person>
+@{
+    ViewBag.People = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <div style="text-align:center;"
-        @foreach (var item in ViewBag.People)
-        {
-            <h1>@item.FirstName + " " + @item.MiddleName</h1>
-        }
+    <div style="text-align:center;">
+        <table class="table table-striped border" >
+            <thead class="table-secondary">
+                <tr>
+                    <td>Id</td>
+                    <td>LastName</td>
+                    <td>FirstName</td>
+                    <td>MiddleName</td>
+                    <td>BirthDate</td>
+                </tr>
+            </thead>
+            @foreach(var item in Model)
+            {
+                <tbody>
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.LastName</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.MiddleName</td>
+                        <td>@item.BirthDate</td>
+                    </tr>
+                </tbody>
+            }
+        </table>
     </div>
 </div>

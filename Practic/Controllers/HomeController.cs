@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Practic.Models;
-using System;
-using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Practic.Controllers
 {
@@ -13,6 +13,7 @@ namespace Practic.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        private const string path = "Data source=DESKTOP-SS5TGJO\\SQLEXPRESS; Initial catalog=MVCDataBase; Integrated security= true;";
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,8 +21,11 @@ namespace Practic.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Persons = new Person().ReadAll();
-            return View();
+            using(IDbConnection conect = new SqlConnection(path))
+            {
+                return View(conect.Query<Person>("SELECT * FROM People").ToList<Person>());
+            }
+            
         }
 
         public IActionResult Privacy()
